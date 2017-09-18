@@ -1,13 +1,19 @@
 # react-native-local-notifications
 Manageable local notifications for React Native on iOS and Android. Create, update and delete local notifications by their unique id. The push notification title is the app name. When you open the app all displayed local notifications will be removed and the badge counter will be reset on iOS. 
 
+NOTICE:
+- for React Native < 0.47 use react-native-immediate-phone-call <1.x.x
+- for React Native > 0.47 use react-native-immediate-phone-call >=1.x.x
+
 ## Setup
 
+Fast and easy:
 ```bash
-npm install react-native-local-notifications
+npm install react-native-local-notifications --save
+react-native react-native-local-notifications
 ```
 
-Or add the latest version as dependeny to your package.json.
+Or manual: add the latest version as dependeny to your package.json.
 
 ```javascript
 {
@@ -21,7 +27,7 @@ Or add the latest version as dependeny to your package.json.
   }
 ```
 
-####iOS
+#### iOS
 * Add RNLocalNotifications.xcoderproj into your project in the Libraries folder.
 * Add the .a file on the General tab of your target under Linked Frameworks And Libraries
 * Add the .a file on the Build Phases tab of your target under Link Binary With Libraries
@@ -39,7 +45,7 @@ Or add the latest version as dependeny to your package.json.
     ```
 * Add Alarm.caf and Silence.caf to the Resources folder of your xcode project. (can be found in react-native-local-notifications/ios/RNLocalNotifications)
 
-####Android
+#### Android
 * In the AndroidManifest.xml file of your android studio project add:
     ```
     <receiver android:process=":remote" android:name="com.github.wumke.RNLocalNotifications.AlarmReceiver" android:exported="true"></receiver>

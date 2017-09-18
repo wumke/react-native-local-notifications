@@ -1,6 +1,6 @@
 {
   "name": "react-native-local-notifications",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Manageable local notifications for React Native on iOS and Android.",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "ios"
   ],
   "author": "Wumke",
-  "license": "ISC",
+  "license": "GPLv3",
   "bugs": {
     "url": "https://github.com/wumke/react-native-local-notifications/issues"
   },
