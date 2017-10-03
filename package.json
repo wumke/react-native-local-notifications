@@ -1,6 +1,6 @@
 {
   "name": "react-native-local-notifications",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manageable local notifications for React Native on iOS and Android.",
   "main": "index.js",
   "scripts": {
