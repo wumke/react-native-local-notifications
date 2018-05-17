@@ -10,7 +10,7 @@ NOTICE:
 Fast and easy:
 ```bash
 npm install react-native-local-notifications --save
-react-native react-native-local-notifications
+react-native link react-native-local-notifications
 ```
 
 Or manual: add the latest version as dependeny to your package.json.
