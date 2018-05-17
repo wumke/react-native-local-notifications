@@ -9,9 +9,9 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(createNotification:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound)
+RCT_EXPORT_METHOD(createNotification:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound hiddendata:(NSString *)hiddendata)
 {
-    [self createAlarm:id text:text datetime:datetime sound:sound update:FALSE];
+    [self createAlarm:id text:text datetime:datetime sound:sound update:FALSE hiddendata:(NSString *)hiddendata];
 };
 
 RCT_EXPORT_METHOD(deleteNotification:(NSInteger *)id)
@@ -19,12 +19,17 @@ RCT_EXPORT_METHOD(deleteNotification:(NSInteger *)id)
     [self deleteAlarm:id];
 };
 
-RCT_EXPORT_METHOD(updateNotification:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound)
+RCT_EXPORT_METHOD(updateNotification:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound hiddendata:(NSString *)hiddendata)
 {
-    [self createAlarm:id text:text datetime:datetime sound:sound update:TRUE];
+    [self createAlarm:id text:text datetime:datetime sound:sound update:TRUE hiddendata:(NSString *)hiddendata];
 };
 
-- (void)createAlarm:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound update:(Boolean *)update {
+RCT_EXPORT_METHOD(setAndroidIcons:(NSString *)largeIconName largeIconType:(NSString *)largeIconType smallIconName:(NSString *)smallIconName smallIconType:(NSString *)smallIconType)
+{
+    //Do nothing
+};
+
+- (void)createAlarm:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound update:(Boolean *)update hiddendata:(NSString *)hiddendata {
     if(update){
         [self deleteAlarm:id];
     }
@@ -34,22 +39,24 @@ RCT_EXPORT_METHOD(updateNotification:(NSInteger *)id text:(NSString *)text datet
     if ([[NSDate date]compare: fireDate] == NSOrderedAscending) { //only schedule items in the future!
         UILocalNotification *notification = [[UILocalNotification alloc] init];
         notification.fireDate = fireDate;
-        if(![sound isEqualToString:@""] && ![sound isEqualToString:@"silence"]){
-            notification.soundName = @"alarm.caf";
+        if([sound isEqualToString:@"default"] && ![sound isEqualToString:@"silence"]){
+            notification.soundName = UILocalNotificationDefaultSoundName;
+        }
+        else if([sound isEqualToString:@"silence"]){
+            notification.soundName = @"silence.caf";
         }
         else {
-            notification.soundName = @"silence.caf";
+            notification.soundName = [NSString stringWithFormat:@"%@.caf", sound];
         }
         notification.timeZone = [NSTimeZone defaultTimeZone];
         notification.alertBody = text;
         notification.alertAction = @"Open";
-        int a = ((int)[[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
-        notification.applicationIconBadgeNumber = a;
         NSMutableDictionary *md = [[NSMutableDictionary alloc] init];
         [md setValue:[NSNumber numberWithInteger:id] forKey:@"id"];
         [md setValue:text forKey:@"text"];
         [md setValue:datetime forKey:@"datetime"];
         [md setValue:sound forKey:@"sound"];
+        [md setValue:hiddendata forKey:@"hiddendata"];
         notification.userInfo = md;
         [[UIApplication sharedApplication] scheduleLocalNotification:notification];
     }

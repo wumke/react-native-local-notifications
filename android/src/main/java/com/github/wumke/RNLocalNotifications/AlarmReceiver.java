@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -26,7 +28,12 @@ public class AlarmReceiver extends BroadcastReceiver {
             Integer id = intent.getExtras().getInt("id", 0);
             String text = intent.getExtras().getString("text", "");
             String datetime = intent.getExtras().getString("datetime", "");
-            String sound = intent.getExtras().getString("sound", "");
+            String sound = intent.getExtras().getString("sound", "default");
+            String hiddendata = intent.getExtras().getString("hiddendata", "");
+            String largeIconName = intent.getExtras().getString("largeIconName", "ic_launcher");
+            String largeIconType = intent.getExtras().getString("largeIconType", "mipmap");
+            String smallIconName = intent.getExtras().getString("smallIconName", "notification_small");
+            String smallIconType = intent.getExtras().getString("smallIconType", "drawable");
 
             if(!this.isAppOnForeground(context)) {
                 // Set the icon, scrolling text and timestamp
@@ -34,18 +41,50 @@ public class AlarmReceiver extends BroadcastReceiver {
                 String packageName = context.getPackageName();
                 ApplicationInfo appInfo = context.getApplicationInfo();
                 String appName = context.getPackageManager().getApplicationLabel(appInfo).toString();
+
+                int largeIconResId;
+                largeIconResId = res.getIdentifier("ic_launcher", "mipmap", packageName);
+                Bitmap largeIconBitmap = BitmapFactory.decodeResource(res, largeIconResId);
+
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(context)
-                                .setSmallIcon(res.getIdentifier("notification_small", "drawable", packageName)) //TODO: add the icon yourself!
+                                .setSmallIcon(res.getIdentifier("notification_small", "drawable", packageName))
+                                .setLargeIcon(largeIconBitmap)
                                 .setContentTitle(appName)
                                 .setContentText(text)
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                                 .setAutoCancel(true);
 
                 // Set alarm sound
-                if (!sound.equals("") && !sound.equals("silence")) {
-                    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //use default sound TODO: use custom sound by name!
+                if(sound.equals("default")){
+                    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     mBuilder.setSound(alarmSound);
+                }
+                else if (sound.equals("silence")) {
+                    //Do not set a sound for silence
+                }
+                else {
+                    Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    String soundName = sound;
+                    if (soundName != null) {
+                        if (!"default".equalsIgnoreCase(soundName)) {
+
+                            // sound name can be full filename, or just the resource name.
+                            // So the strings 'my_sound.mp3' AND 'my_sound' are accepted
+                            // The reason is to make the iOS and android javascript interfaces compatible
+
+                            int resId;
+                            if (context.getResources().getIdentifier(soundName, "raw", context.getPackageName()) != 0) {
+                                resId = context.getResources().getIdentifier(soundName, "raw", context.getPackageName());
+                            } else {
+                                soundName = soundName.substring(0, soundName.lastIndexOf('.'));
+                                resId = context.getResources().getIdentifier(soundName, "raw", context.getPackageName());
+                            }
+
+                            soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + resId);
+                        }
+                    }
+                    mBuilder.setSound(soundUri);
                 }
 
                 //set vibration
@@ -57,6 +96,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     //TODO: if you want feedback
                 }
                 Intent openIntent = new Intent(context, cl);
+                openIntent.putExtra("hiddendata", hiddendata);
 
                 // The PendingIntent to launch our activity if the user selects this notification
                 PendingIntent contentIntent = PendingIntent.getActivity(context, 0, openIntent, PendingIntent.FLAG_UPDATE_CURRENT);

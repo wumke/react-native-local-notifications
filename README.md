@@ -84,17 +84,21 @@ Or manual: add the latest version as dependeny to your package.json.
   ```
 ## Usage
 
+####Examples:
 ```javascript
 import RNLocalNotifications from 'react-native-local-notifications';
 ...
-//RNLocalNotifications.createNotification(id, text, datetime, sound);
+//RNLocalNotifications.setAndroidIcons(largeIconName, largeIconType, smallIconName, smallIconType);
+RNLocalNotifications.setAndroidIcons("ic_launcher", "mipmap", "notification_small", "drawable"); //this are the default values, this function is optional
+
+//RNLocalNotifications.createNotification(id, text, datetime, sound[, hiddendata]);
 RNLocalNotifications.createNotification(1, 'Some text', '2017-01-02 12:30', 'default');
 
-//RNLocalNotifications.updateNotification(id, text, datetime, sound);
+//RNLocalNotifications.updateNotification(id, text, datetime, sound[, hiddendata]);
 RNLocalNotifications.updateNotification(1, 'Some modifications to text', '2017-01-02 12:35', 'silence');
 
-//RNLocalNotifications.createNotification(id);
-RNLocalNotifications.createNotification(1);
+//RNLocalNotifications.deleteNotification(id);
+RNLocalNotifications.deleteNotification(1);
 ...
 ```
 ####Parameter explanation:
@@ -103,7 +107,44 @@ RNLocalNotifications.createNotification(1);
 * datetime (String): The date + time to show the notification, as a string in the format 'yyyy-mm-dd hh:mm'.
 * sound (String): Which sound is played: '' or 'silence' for vibration only, any other value for default alarm sound. (Future releases: your own custom sounds, name-based!)
 
+####Add custom sounds:
+
+Convert your ringtone to .caf and .mp3 file formats.
+
+__iOS__: Add yoursound.caf to the Resources folder of your xcode project.  
+__Android__: Add yoursound.mp3 to the 'raw' folder
+
+Use 'yoursound' as string for the sound parameter.
+
+####Hidden/extra data:
+
+When you need to include custom, non-visible, data (for example object id's) to your notifications provide the optional 'hiddendata' parameter to createNotification/updateNotification.
+
+The value will be available as hiddendata (Android) or userData.hiddendata (iOS) when you click the notification.
+
+Note that 'hiddendata' must be a string, so if you want to include json objects you need to encode/decode the data yourself.
+
 ## Versioning
 
 This project uses semantic versioning: MAJOR.MINOR.PATCH.
 This means that releases within the same MAJOR version are always backwards compatible. For more info see [semver.org](http://semver.org/).
+
+## Licence
+
+MIT (see LICENCE file)
+
+## Release notes
+
+#### 2.0.0
+
+Breaking changes
+- none
+
+New features / Updates
+- Changed licence to MIT
+- Custom sounds
+- Hidden data
+- Set Android notification icons type/name
+
+Fixes
+- Readme delete notification example
