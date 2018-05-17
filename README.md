@@ -101,13 +101,14 @@ RNLocalNotifications.updateNotification(1, 'Some modifications to text', '2017-0
 RNLocalNotifications.deleteNotification(1);
 ...
 ```
-####Parameter explanation:
+#### Parameter explanation:
 * id (Integer): Unique value to be able to edit or cancel scheduled notifications.
 * text (String): The message text.
 * datetime (String): The date + time to show the notification, as a string in the format 'yyyy-mm-dd hh:mm'.
-* sound (String): Which sound is played: '' or 'silence' for vibration only, any other value for default alarm sound. (Future releases: your own custom sounds, name-based!)
+* sound (String): Which sound is played: '' or 'silence' for vibration only, 'default' for system alarm sound, custom sound namefor self added ringtones.
+* hiddendata (String): Invisible data that can be used to perform custom actions when the mobile app is opened by clicking on the local notification.
 
-####Add custom sounds:
+#### Add custom sounds:
 
 Convert your ringtone to .caf and .mp3 file formats.
 
@@ -116,7 +117,7 @@ __Android__: Add yoursound.mp3 to the 'raw' folder
 
 Use 'yoursound' as string for the sound parameter.
 
-####Hidden/extra data:
+#### Hidden/extra data:
 
 When you need to include custom, non-visible, data (for example object id's) to your notifications provide the optional 'hiddendata' parameter to createNotification/updateNotification.
 
