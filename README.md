@@ -2,8 +2,8 @@
 Manageable local notifications for React Native on iOS and Android. Create, update and delete local notifications by their unique id. The push notification title is the app name. When you open the app all displayed local notifications will be removed and the badge counter will be reset on iOS. 
 
 NOTICE:
-- for React Native < 0.47 use react-native-immediate-phone-call <1.x.x
-- for React Native > 0.47 use react-native-immediate-phone-call >=1.x.x
+- for React Native < 0.47 use react-native-local-notifications <1.x.x
+- for React Native > 0.47 use react-native-local-notifications >=1.x.x
 
 ## Setup
 
