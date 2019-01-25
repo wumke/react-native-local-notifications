@@ -39,7 +39,7 @@ Or manual: add the latest version as dependeny to your package.json.
 * {auto-link} Add RNLocalNotifications.xcoderproj into your project in the Libraries folder.
 * {auto-link}Add the .a file on the General tab of your target under Linked Frameworks And Libraries
 * {auto-link}Add the .a file on the Build Phases tab of your target under Link Binary With Libraries
-* In the AppDelegate.m file of your xcode project add:
+* In the AppDelegate.m file of your xcode project add: (this will clear all notifications when you open the app)
     ```
     - (void)applicationDidBecomeActive:(UIApplication *)application
     {
@@ -51,7 +51,7 @@ Or manual: add the latest version as dependeny to your package.json.
       }
     }
     ```
-* In the AppDelegate.m file of your xcode project, in the didFinishLaunchingWithOptions function, add:
+* In the AppDelegate.m file of your xcode project, in the didFinishLaunchingWithOptions function, add: (ask the user to allow notifications)
     ```
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
@@ -64,8 +64,10 @@ Or manual: add the latest version as dependeny to your package.json.
     ```
     <receiver android:process=":remote" android:name="com.github.wumke.RNLocalNotifications.AlarmReceiver" android:exported="true"></receiver>
     ```
-* In the MainActivity.java file of your android studio project add:
+* In the MainActivity.java file of your android studio project add: (this will clear all notifications when you open the app)
   ```
+  import android.content.Context;
+  ...
   @Override
       public void onResume() {
           super.onResume();
