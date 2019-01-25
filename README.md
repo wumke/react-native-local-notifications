@@ -50,6 +50,12 @@ Or manual: add the latest version as dependeny to your package.json.
       }
     }
     ```
+* In the AppDelegate.m file of your xcode project, in the didFinishLaunchingWithOptions function, add:
+    ```
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+      }
+  ```
 * Add Alarm.caf and Silence.caf to the Resources folder of your xcode project. (can be found in react-native-local-notifications/ios/RNLocalNotifications)
 
 #### Android
@@ -161,3 +167,6 @@ Fixes
 - Readme delete notification example
 - Updated android part to schedule exact notifications based on api lvl for api lvl 19, 21 and 23 (tested up to 26)
 - Added com.android.support:support-v4:+ dependency
+
+Todo
+- iOS UILocalNotification deprecation

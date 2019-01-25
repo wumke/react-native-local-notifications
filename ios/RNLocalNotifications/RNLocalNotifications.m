@@ -9,17 +9,17 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(createNotification:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound hiddendata:(NSString *)hiddendata)
+RCT_EXPORT_METHOD(createNotification:(NSInteger)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound hiddendata:(NSString *)hiddendata)
 {
     [self createAlarm:id text:text datetime:datetime sound:sound update:FALSE hiddendata:(NSString *)hiddendata];
 };
 
-RCT_EXPORT_METHOD(deleteNotification:(NSInteger *)id)
+RCT_EXPORT_METHOD(deleteNotification:(NSInteger)id)
 {
     [self deleteAlarm:id];
 };
 
-RCT_EXPORT_METHOD(updateNotification:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound hiddendata:(NSString *)hiddendata)
+RCT_EXPORT_METHOD(updateNotification:(NSInteger)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound hiddendata:(NSString *)hiddendata)
 {
     [self createAlarm:id text:text datetime:datetime sound:sound update:TRUE hiddendata:(NSString *)hiddendata];
 };
@@ -29,7 +29,7 @@ RCT_EXPORT_METHOD(setAndroidIcons:(NSString *)largeIconName largeIconType:(NSStr
     //Do nothing
 };
 
-- (void)createAlarm:(NSInteger *)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound update:(Boolean *)update hiddendata:(NSString *)hiddendata {
+- (void)createAlarm:(NSInteger)id text:(NSString *)text datetime:(NSString *)datetime sound:(NSString *)sound update:(Boolean)update hiddendata:(NSString *)hiddendata {
     if(update){
         [self deleteAlarm:id];
     }
@@ -58,15 +58,15 @@ RCT_EXPORT_METHOD(setAndroidIcons:(NSString *)largeIconName largeIconType:(NSStr
         [md setValue:sound forKey:@"sound"];
         [md setValue:hiddendata forKey:@"hiddendata"];
         notification.userInfo = md;
-        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        });
     }
 }
 
-- (void)deleteAlarm:(NSInteger *)id {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSInteger comps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+- (void)deleteAlarm:(NSInteger)id {
     for (UILocalNotification * notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
-        NSMutableDictionary *md = [notification userInfo];
+        NSMutableDictionary *md = (NSMutableDictionary*)[notification userInfo];
         if ([[md valueForKey:@"id"] integerValue] == [[NSNumber numberWithInteger:id] integerValue]) {
             [[UIApplication sharedApplication] cancelLocalNotification:notification];
         }
