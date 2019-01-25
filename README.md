@@ -4,6 +4,13 @@ Manageable local notifications for React Native on iOS and Android. Create, upda
 NOTICE:
 - for React Native < 0.47 use react-native-local-notifications <1.x.x
 - for React Native > 0.47 use react-native-local-notifications >=1.x.x
+- for Android API lvl >=19 use react-native-local-notifications >=2.x.x
+
+NOTIFICATIONS WILL NOT BE SHOWN WHEN YOUR APP IS IN THE FOREGROUND. (options to handle this situation might be added in future releases)
+
+For latest Android versions, please check notification settings and battery management settings if notifications are not shown at the specified time. This libary aims to deliver exact notifications, which are not delayed by the system.
+Creating a never ending back- or foregroundservice (API lvl >=26) can help stopping the device to kill your apps and not show your notifications on exact times. 
+Also see https://dontkillmyapp.com for more info and tips to solve this problem for devices with custom battery saving packages.
 
 ## Setup
 
@@ -136,6 +143,8 @@ MIT (see LICENCE file)
 
 ## Release notes
 
+See https://www.npmjs.com/package/react-native-local-notifications?activeTab=versions
+
 #### 2.0.0
 
 Breaking changes
@@ -146,6 +155,9 @@ New features / Updates
 - Custom sounds
 - Hidden data
 - Set Android notification icons type/name
+- compileSdkVersion, buildToolsVersion and targetSdkVersion (equal to compileSdkVersion)
 
 Fixes
 - Readme delete notification example
+- Updated android part to schedule exact notifications based on api lvl for api lvl 19, 21 and 23 (tested up to 26)
+- Added com.android.support:support-v4:+ dependency
