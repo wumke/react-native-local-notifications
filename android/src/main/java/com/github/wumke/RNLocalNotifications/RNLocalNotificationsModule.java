@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.os.Build;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -88,7 +89,20 @@ public class RNLocalNotificationsModule extends ReactContextBaseJavaModule {
 
         Calendar date = Calendar.getInstance();
         if(timeInMillis > date.getTimeInMillis()) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, mAlarmSender);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //API LVL 23, Android 6
+                alarmManager.setExactAndAllowWhileIdle (AlarmManager.RTC_WAKEUP, timeInMillis, mAlarmSender)
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.L) { //API LVL 21, Android 5
+                AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(timeInMillis, mAlarmSender);
+                alarmManager.setAlarmClock (info, mAlarmSender)
+
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.K) { //API LVL 19, Android 4.4
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, mAlarmSender);
+            }
+            else { //<19
+                alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, mAlarmSender);
+            }
         }
     }
 
