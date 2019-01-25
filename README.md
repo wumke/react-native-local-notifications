@@ -29,7 +29,7 @@ Or manual: add the latest version as dependeny to your package.json.
   },
   "dependencies": {
     ...
-    "react-native-local-notifications": "0.1.0",
+    "react-native-local-notifications": "2.0.0",
     ...
   }
 ```

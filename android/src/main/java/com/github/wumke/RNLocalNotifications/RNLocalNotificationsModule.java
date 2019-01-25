@@ -92,12 +92,12 @@ public class RNLocalNotificationsModule extends ReactContextBaseJavaModule {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //API LVL 23, Android 6
                 alarmManager.setExactAndAllowWhileIdle (AlarmManager.RTC_WAKEUP, timeInMillis, mAlarmSender);
             }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.L) { //API LVL 21, Android 5
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //API LVL 21, Android 5
                 AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(timeInMillis, mAlarmSender);
                 alarmManager.setAlarmClock (info, mAlarmSender);
 
             }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.K) { //API LVL 19, Android 4.4
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { //API LVL 19, Android 4.4
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, mAlarmSender);
             }
             else { //<19
