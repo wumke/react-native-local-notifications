@@ -19,6 +19,7 @@ Fast and easy:
 npm install react-native-local-notifications --save
 react-native link react-native-local-notifications
 ```
+Keep in mind that the link step only links the project in the native projects, more steps have to be done for both platforms, which are described in the Android and iOS section below... please verify manually that the link command successfully linked the libray to your project!
 
 Or manual: add the latest version as dependeny to your package.json.
 
@@ -35,9 +36,9 @@ Or manual: add the latest version as dependeny to your package.json.
 ```
 
 #### iOS
-* Add RNLocalNotifications.xcoderproj into your project in the Libraries folder.
-* Add the .a file on the General tab of your target under Linked Frameworks And Libraries
-* Add the .a file on the Build Phases tab of your target under Link Binary With Libraries
+* {auto-link} Add RNLocalNotifications.xcoderproj into your project in the Libraries folder.
+* {auto-link}Add the .a file on the General tab of your target under Linked Frameworks And Libraries
+* {auto-link}Add the .a file on the Build Phases tab of your target under Link Binary With Libraries
 * In the AppDelegate.m file of your xcode project add:
     ```
     - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -72,16 +73,16 @@ Or manual: add the latest version as dependeny to your package.json.
           nMgr.cancelAll();
       }
   ```
-* In the settings.gradle
+* {auto-link}In the settings.gradle
   ```
     include ':react-native-local-notifications', ':app'
     project(':react-native-local-notifications').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-local-notifications/android')
   ```
-* In the build.gradle
+* {auto-link}In the build.gradle
   ```
     compile project(':react-native-local-notifications')
   ```
-* In MainApplication.java
+* {auto-link}In MainApplication.java
   ```
     import com.github.wumke.RNLocalNotifications.RNLocalNotificationsPackage;
     ...
@@ -95,6 +96,9 @@ Or manual: add the latest version as dependeny to your package.json.
     }
     ...
   ```
+ * Aside from the big icon, for which the ic_launcher icon in mipmap folder is used by default, you also need a small transparent with white foreground icon which will be displayed in the status bar.
+ See Android developer specifications for correct sizes, by default 'notification_small' from the drawable folder is used... 
+  
 ## Usage
 
 ####Examples:
