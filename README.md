@@ -67,6 +67,7 @@ Or manual: add the latest version as dependeny to your package.json.
 * In the MainActivity.java file of your android studio project add: (this will clear all notifications when you open the app)
   ```
   import android.content.Context;
+  import android.app.NotificationManager;
   ...
   @Override
       public void onResume() {
