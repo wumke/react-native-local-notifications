@@ -114,7 +114,7 @@ public class RNLocalNotificationsModule extends ReactContextBaseJavaModule {
         PendingIntent pi = PendingIntent.getBroadcast(reactContext, id, intent, PendingIntent.FLAG_NO_CREATE);
         if(pi != null){
             pi.cancel();
+            alarmManager.cancel(pi);
         }
-        alarmManager.cancel(pi);
     }
 }
