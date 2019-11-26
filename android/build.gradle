@@ -24,6 +24,6 @@ android {
 
 dependencies {
     def supportLibVersion = project.hasProperty('supportLibVersion') ? project.supportLibVersion : "+"
-    compile 'com.facebook.react:react-native:+'
-    compile "com.android.support:support-v4:$supportLibVersion"
+    implementation 'com.facebook.react:react-native:+'
+    implementation "com.android.support:support-v4:$supportLibVersion"
 }
