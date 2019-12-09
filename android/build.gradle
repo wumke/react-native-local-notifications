@@ -23,7 +23,6 @@ android {
 }
 
 dependencies {
-    def supportLibVersion = safeExtGet('supportLibVersion', '+')
     implementation 'com.facebook.react:react-native:+'
-    implementation "com.android.support:support-v4:$supportLibVersion"
+    implementation "androidx.core:core:1.1.0"
 }
