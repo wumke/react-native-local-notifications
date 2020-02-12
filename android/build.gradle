@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 
-android {
-    def DEFAULT_COMPILE_SDK_VERSION             = 27
-    def DEFAULT_BUILD_TOOLS_VERSION             = "27.0.3"
-    def DEFAULT_TARGET_SDK_VERSION              = 27
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
 
-    compileSdkVersion project.hasProperty('compileSdkVersion') ? project.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
-    buildToolsVersion project.hasProperty('buildToolsVersion') ? project.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
+android {
+    compileSdkVersion safeExtGet('compileSdkVersion', 28)
+    buildToolsVersion safeExtGet('buildToolsVersion', '28.0.3')
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion project.hasProperty('compileSdkVersion') ? project.compileSdkVersion : DEFAULT_TARGET_SDK_VERSION
+        minSdkVersion safeExtGet('minSdkVersion', 16)
+        targetSdkVersion safeExtGet('targetSdkVersion', 28)
         versionCode 3
         versionName "2.0.0"
         ndk {
@@ -23,7 +23,6 @@ android {
 }
 
 dependencies {
-    def supportLibVersion = project.hasProperty('supportLibVersion') ? project.supportLibVersion : "+"
     implementation 'com.facebook.react:react-native:+'
-    implementation "com.android.support:support-v4:$supportLibVersion"
+    implementation "androidx.core:core:1.1.0"
 }
